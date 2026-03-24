@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'motion/react';
 import { Menu, X, Moon, Sun } from 'lucide-react';
 import { cn } from '../lib/utils';
 
@@ -14,14 +14,19 @@ export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isHidden, setIsHidden] = useState(false);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  const { scrollY } = useScroll();
+
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    const previous = scrollY.getPrevious() || 0;
+    if (latest > previous && latest > 150) {
+      setIsHidden(true);
+    } else {
+      setIsHidden(false);
+    }
+    setIsScrolled(latest > 50);
+  });
 
   useEffect(() => {
     if (isDarkMode) {
@@ -32,7 +37,13 @@ export function Navbar() {
   }, [isDarkMode]);
 
   return (
-    <nav
+    <motion.nav
+      variants={{
+        visible: { y: 0 },
+        hidden: { y: "-100%" },
+      }}
+      animate={isHidden ? "hidden" : "visible"}
+      transition={{ duration: 0.35, ease: "easeInOut" }}
       className={cn(
         'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
         isScrolled ? 'glass h-16' : 'bg-transparent h-20'
@@ -103,6 +114,6 @@ export function Navbar() {
           </motion.div>
         )}
       </AnimatePresence>
-    </nav>
+    </motion.nav>
   );
 }

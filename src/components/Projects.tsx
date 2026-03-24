@@ -1,5 +1,6 @@
-import { motion } from 'motion/react';
+import { motion, useMotionValue, useSpring, useTransform } from 'motion/react';
 import { ExternalLink, Github } from 'lucide-react';
+import { useRef, MouseEvent } from 'react';
 
 const projects = [
   {
@@ -36,6 +37,110 @@ const projects = [
   },
 ];
 
+function ProjectCard({ project, index }: { project: typeof projects[0], index: number }) {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const mouseXSpring = useSpring(x);
+  const mouseYSpring = useSpring(y);
+
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["10deg", "-10deg"]);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-10deg", "10deg"]);
+
+  const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    const xPct = mouseX / width - 0.5;
+    const yPct = mouseY / height - 0.5;
+    x.set(xPct);
+    y.set(yPct);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+
+  return (
+    <motion.div
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{
+        rotateX,
+        rotateY,
+        transformStyle: "preserve-3d",
+      }}
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ delay: index * 0.1, duration: 1, ease: [0.22, 1, 0.36, 1] }}
+      className="group relative rounded-3xl overflow-hidden glass-card glass-highlight hover:shadow-[0_20px_50px_rgba(0,0,0,0.1)] dark:hover:shadow-[0_20px_50px_rgba(0,0,0,0.4)] transition-shadow duration-500 cursor-pointer"
+    >
+      <div 
+        style={{ transform: "translateZ(50px)" }}
+        className="aspect-[4/3] overflow-hidden"
+      >
+        <img
+          src={project.image}
+          alt={project.title}
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+          referrerPolicy="no-referrer"
+        />
+      </div>
+      
+      <div 
+        style={{ transform: "translateZ(75px)" }}
+        className="absolute inset-0 bg-gradient-to-t from-apple-dark/90 via-apple-dark/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-8 text-white"
+      >
+        <div className="space-y-4 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+          <p className="text-sm font-medium tracking-wider uppercase opacity-70">
+            {project.category}
+          </p>
+          <h3 className="text-2xl md:text-3xl font-display font-bold">
+            {project.title}
+          </h3>
+          <p className="text-sm md:text-base opacity-80 line-clamp-2">
+            {project.description}
+          </p>
+          <div className="flex space-x-4 pt-4">
+            <a
+              href={project.link}
+              className="p-3 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md transition-colors"
+            >
+              <ExternalLink size={20} />
+            </a>
+            <a
+              href={project.github}
+              className="p-3 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md transition-colors"
+            >
+              <Github size={20} />
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      {/* Desktop Overlay (Always visible on mobile) */}
+      <div className="p-8 md:hidden">
+        <p className="text-xs font-medium tracking-wider uppercase opacity-50 mb-2">
+          {project.category}
+        </p>
+        <h3 className="text-xl font-display font-bold mb-2">
+          {project.title}
+        </h3>
+        <p className="text-sm opacity-60 line-clamp-2">
+          {project.description}
+        </p>
+      </div>
+    </motion.div>
+  );
+}
+
 export function Projects() {
   return (
     <section id="projects" className="section-padding">
@@ -60,69 +165,7 @@ export function Projects() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
           {projects.map((project, index) => (
-            <motion.div
-              key={project.title}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              whileHover={{ 
-                y: -10,
-                scale: 1.02,
-                transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] }
-              }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ delay: index * 0.1, duration: 1, ease: [0.22, 1, 0.36, 1] }}
-              className="group relative rounded-3xl overflow-hidden glass-card glass-highlight hover:shadow-[0_20px_50px_rgba(0,0,0,0.1)] dark:hover:shadow-[0_20px_50px_rgba(0,0,0,0.4)] transition-shadow duration-500"
-            >
-              <div className="aspect-[4/3] overflow-hidden">
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  referrerPolicy="no-referrer"
-                />
-              </div>
-              
-              <div className="absolute inset-0 bg-gradient-to-t from-apple-dark/90 via-apple-dark/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-8 text-white">
-                <div className="space-y-4 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                  <p className="text-sm font-medium tracking-wider uppercase opacity-70">
-                    {project.category}
-                  </p>
-                  <h3 className="text-2xl md:text-3xl font-display font-bold">
-                    {project.title}
-                  </h3>
-                  <p className="text-sm md:text-base opacity-80 line-clamp-2">
-                    {project.description}
-                  </p>
-                  <div className="flex space-x-4 pt-4">
-                    <a
-                      href={project.link}
-                      className="p-3 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md transition-colors"
-                    >
-                      <ExternalLink size={20} />
-                    </a>
-                    <a
-                      href={project.github}
-                      className="p-3 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md transition-colors"
-                    >
-                      <Github size={20} />
-                    </a>
-                  </div>
-                </div>
-              </div>
-              
-              {/* Desktop Overlay (Always visible on mobile) */}
-              <div className="p-8 md:hidden">
-                <p className="text-xs font-medium tracking-wider uppercase opacity-50 mb-2">
-                  {project.category}
-                </p>
-                <h3 className="text-xl font-display font-bold mb-2">
-                  {project.title}
-                </h3>
-                <p className="text-sm opacity-60 line-clamp-2">
-                  {project.description}
-                </p>
-              </div>
-            </motion.div>
+            <ProjectCard key={project.title} project={project} index={index} />
           ))}
         </div>
       </div>

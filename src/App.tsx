@@ -9,19 +9,60 @@ import { About } from './components/About';
 import { Projects } from './components/Projects';
 import { Experience } from './components/Experience';
 import { Contact } from './components/Contact';
+import { CustomCursor } from './components/CustomCursor';
 import { motion } from 'motion/react';
 
 export default function App() {
   return (
-    <div className="min-h-screen selection:bg-apple-blue selection:text-white">
+    <div className="min-h-screen selection:bg-apple-blue selection:text-white cursor-none">
+      <CustomCursor />
       <Navbar />
       
       <main>
-        <Hero />
-        <About />
-        <Projects />
-        <Experience />
-        <Contact />
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1 }}
+        >
+          <Hero />
+        </motion.div>
+        
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <About />
+        </motion.div>
+        
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <Projects />
+        </motion.div>
+        
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <Experience />
+        </motion.div>
+        
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <Contact />
+        </motion.div>
       </main>
 
       <motion.footer 
@@ -64,7 +105,7 @@ export default function App() {
       
       {/* Custom Scroll Progress Bar */}
       <motion.div
-        className="fixed top-0 left-0 right-0 h-1 bg-apple-blue z-[60] origin-left"
+        className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-apple-blue via-purple-500 to-apple-blue z-[60] origin-left"
         style={{ scaleX: useScrollProgress() }}
       />
     </div>
