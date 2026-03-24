@@ -39,14 +39,14 @@ export function Experience() {
     <section id="experience" className="section-padding bg-apple-gray/30 dark:bg-apple-dark/50">
       <div className="container-custom">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-          <div className="space-y-12">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              className="space-y-4"
-            >
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            className="space-y-12"
+          >
+            <div className="space-y-4">
               <h2 className="text-3xl md:text-5xl font-display font-bold tracking-tight">
                 Experience & <br />
                 <span className="text-apple-blue">Education</span>
@@ -55,14 +55,14 @@ export function Experience() {
                 A timeline of my professional journey and academic background 
                 in the world of technology and design.
               </p>
-            </motion.div>
+            </div>
             
             <div className="space-y-8 relative before:absolute before:left-[19px] before:top-2 before:bottom-2 before:w-0.5 before:bg-apple-dark/5 dark:before:bg-apple-gray/5">
               {experiences.map((exp, index) => (
                 <motion.div
                   key={exp.title}
-                  initial={{ opacity: 0, x: -30 }}
-                  whileInView={{ opacity: 1, x: 0 }}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-50px" }}
                   transition={{ delay: index * 0.1, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
                   className="relative pl-12 group"
@@ -85,23 +85,23 @@ export function Experience() {
                 </motion.div>
               ))}
             </div>
-          </div>
+          </motion.div>
           
-          <div className="space-y-12">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              className="space-y-4"
-            >
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            className="space-y-12"
+          >
+            <div className="space-y-4">
               <h2 className="text-3xl md:text-5xl font-display font-bold tracking-tight">
                 Tech Stack
               </h2>
               <p className="text-lg opacity-60">
                 The tools and technologies I use to bring digital visions to life.
               </p>
-            </motion.div>
+            </div>
             
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
               {['React', 'Next.js', 'TypeScript', 'Tailwind', 'Node.js', 'PostgreSQL', 'Figma', 'Framer Motion', 'D3.js', 'GraphQL', 'AWS', 'Docker'].map((tech, index) => (
@@ -134,7 +134,7 @@ export function Experience() {
                 and immersive 3D web experiences.
               </p>
             </motion.div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

@@ -19,7 +19,7 @@ const projects = [
     github: '#',
   },
   {
-    title: 'Rahul Nain Mobile App',
+    title: 'Aura Mobile App',
     category: 'Mobile App',
     image: 'https://picsum.photos/seed/project3/800/600',
     description: 'A minimalist meditation app designed to bring peace and tranquility to your daily life.',
@@ -64,9 +64,14 @@ export function Projects() {
               key={project.title}
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
+              whileHover={{ 
+                y: -10,
+                scale: 1.02,
+                transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] }
+              }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ delay: index * 0.1, duration: 1, ease: [0.22, 1, 0.36, 1] }}
-              className="group relative rounded-3xl overflow-hidden glass-card glass-highlight"
+              className="group relative rounded-3xl overflow-hidden glass-card glass-highlight hover:shadow-[0_20px_50px_rgba(0,0,0,0.1)] dark:hover:shadow-[0_20px_50px_rgba(0,0,0,0.4)] transition-shadow duration-500"
             >
               <div className="aspect-[4/3] overflow-hidden">
                 <img

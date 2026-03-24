@@ -40,7 +40,7 @@ export function Navbar() {
     >
       <div className="container-custom h-full flex items-center justify-between">
         <a href="#" className="text-xl font-display font-bold tracking-tight">
-          RAHUL<span className="text-apple-blue">.</span>
+          AURA<span className="text-apple-blue">.</span>
         </a>
 
         {/* Desktop Links */}

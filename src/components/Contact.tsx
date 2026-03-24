@@ -23,14 +23,14 @@ export function Contact() {
     <section id="contact" className="section-padding">
       <div className="container-custom">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-          <div className="space-y-12">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              className="space-y-4"
-            >
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            className="space-y-12"
+          >
+            <div className="space-y-4">
               <h2 className="text-3xl md:text-5xl font-display font-bold tracking-tight">
                 Get in <span className="text-apple-blue">Touch</span>
               </h2>
@@ -38,18 +38,18 @@ export function Contact() {
                 Have a project in mind or just want to say hello? 
                 I'm always open to new opportunities and collaborations.
               </p>
-            </motion.div>
+            </div>
             
             <div className="space-y-6">
               {[
-                { icon: <Mail size={24} />, label: 'Email', value: 'hello@rahulnain.dev' },
+                { icon: <Mail size={24} />, label: 'Email', value: 'hello@aura.dev' },
                 { icon: <MapPin size={24} />, label: 'Location', value: 'San Francisco, CA' },
                 { icon: <Phone size={24} />, label: 'Phone', value: '+1 (555) 123-4567' },
               ].map((item, index) => (
                 <motion.div
                   key={item.label}
-                  initial={{ opacity: 0, x: -30 }}
-                  whileInView={{ opacity: 1, x: 0 }}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-50px" }}
                   transition={{ delay: 0.2 + index * 0.1, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
                   className="flex items-center gap-6 p-6 rounded-2xl bg-apple-gray/30 dark:bg-apple-dark/50 border border-apple-dark/5 dark:border-apple-gray/5"
@@ -73,20 +73,28 @@ export function Contact() {
               className="flex space-x-4"
             >
               {[Github, Linkedin, Twitter, Instagram].map((Icon, index) => (
-                <a
+                <motion.a
                   key={index}
                   href="#"
-                  className="p-4 rounded-full bg-apple-gray/30 dark:bg-apple-dark/50 border border-apple-dark/5 dark:border-apple-gray/5 hover:bg-apple-blue hover:text-white transition-all"
+                  whileHover={{ 
+                    scale: 1.1,
+                    y: -5,
+                    backgroundColor: 'rgb(0, 102, 204)', // apple-blue
+                    color: '#ffffff'
+                  }}
+                  whileTap={{ scale: 0.95 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                  className="p-4 rounded-full bg-apple-gray/30 dark:bg-apple-dark/50 border border-apple-dark/5 dark:border-apple-gray/5 transition-colors"
                 >
                   <Icon size={20} />
-                </a>
+                </motion.a>
               ))}
             </motion.div>
-          </div>
+          </motion.div>
           
           <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
             className="p-8 md:p-12 rounded-3xl glass-card glass-highlight"

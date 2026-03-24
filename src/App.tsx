@@ -24,11 +24,17 @@ export default function App() {
         <Contact />
       </main>
 
-      <footer className="py-12 border-t border-apple-dark/5 dark:border-apple-gray/5 bg-apple-gray/30 dark:bg-apple-dark/50">
+      <motion.footer 
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+        className="py-12 border-t border-apple-dark/5 dark:border-apple-gray/5 bg-apple-gray/30 dark:bg-apple-dark/50"
+      >
         <div className="container-custom px-6 flex flex-col md:flex-row items-center justify-between gap-8">
           <div className="space-y-4 text-center md:text-left">
             <a href="#" className="text-2xl font-display font-bold tracking-tight">
-              RAHUL<span className="text-apple-blue">.</span>
+              AURA<span className="text-apple-blue">.</span>
             </a>
             <p className="text-sm opacity-50 max-w-xs">
               Designing and developing digital products that make a difference. 
@@ -50,11 +56,11 @@ export default function App() {
             </div>
             
             <p className="text-xs opacity-30">
-              © {new Date().getFullYear()} Rahul Nain Portfolio. All rights reserved.
+              © {new Date().getFullYear()} Aura Portfolio. All rights reserved.
             </p>
           </div>
         </div>
-      </footer>
+      </motion.footer>
       
       {/* Custom Scroll Progress Bar */}
       <motion.div

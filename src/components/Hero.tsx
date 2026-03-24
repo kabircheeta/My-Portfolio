@@ -1,39 +1,59 @@
-import { motion } from 'motion/react';
+import { motion, useScroll, useTransform } from 'motion/react';
 import { ChevronDown } from 'lucide-react';
+import { useRef } from 'react';
 
 export function Hero() {
+  const containerRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end start"]
+  });
+
+  const y1 = useTransform(scrollYProgress, [0, 1], [0, 200]);
+  const y2 = useTransform(scrollYProgress, [0, 1], [0, -150]);
+  const y3 = useTransform(scrollYProgress, [0, 1], [0, 100]);
+  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+
   return (
-    <section className="relative h-screen flex flex-col items-center justify-center text-center px-6 overflow-hidden">
+    <section ref={containerRef} className="relative h-screen flex flex-col items-center justify-center text-center px-6 overflow-hidden">
       {/* Background Gradient */}
-      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_50%_50%,rgba(0,102,204,0.05),transparent_70%)] dark:bg-[radial-gradient(circle_at_50%_50%,rgba(0,102,204,0.1),transparent_70%)]" />
+      <motion.div 
+        style={{ y: y3 }}
+        className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_50%_50%,rgba(0,102,204,0.05),transparent_70%)] dark:bg-[radial-gradient(circle_at_50%_50%,rgba(0,102,204,0.1),transparent_70%)]" 
+      />
       
       {/* Floating Glass Elements */}
       <motion.div
+        style={{ y: y1 }}
         animate={{
-          y: [0, -20, 0],
           rotate: [0, 5, 0],
         }}
         transition={{
-          duration: 6,
-          repeat: Infinity,
-          ease: "easeInOut",
+          rotate: {
+            duration: 6,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }
         }}
         className="absolute top-1/4 left-10 md:left-20 w-32 h-32 md:w-48 md:h-48 glass-card rounded-3xl -z-10 hidden sm:block"
       />
       <motion.div
+        style={{ y: y2 }}
         animate={{
-          y: [0, 20, 0],
           rotate: [0, -5, 0],
         }}
         transition={{
-          duration: 8,
-          repeat: Infinity,
-          ease: "easeInOut",
+          rotate: {
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }
         }}
         className="absolute bottom-1/4 right-10 md:right-20 w-24 h-24 md:w-40 md:h-40 glass-card rounded-full -z-10 hidden sm:block"
       />
       
       <motion.div
+        style={{ opacity }}
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
