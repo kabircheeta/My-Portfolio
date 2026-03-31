@@ -39,9 +39,19 @@ export function AuthBar() {
     try {
       const result = await signInWithPopup(auth, googleProvider);
       toast.success(`Welcome back, ${result.user.displayName || 'User'}!`);
-    } catch (error) {
-      console.error("Login failed:", error);
-      toast.error("Login failed. Please try again.");
+    } catch (error: any) {
+      console.error("Login failed detailed error:", error);
+      let errorMessage = "Login failed. Please try again.";
+      
+      if (error.code === 'auth/popup-blocked') {
+        errorMessage = "Popup blocked! Please allow popups for this site.";
+      } else if (error.code === 'auth/unauthorized-domain') {
+        errorMessage = "This domain is not authorized for login. Please check Firebase Console.";
+      } else if (error.message) {
+        errorMessage = `Login error: ${error.message}`;
+      }
+      
+      toast.error(errorMessage);
     }
   };
 
