@@ -1,6 +1,6 @@
 import { motion, useMotionValue, useSpring, useTransform } from 'motion/react';
 import { ExternalLink, Github } from 'lucide-react';
-import { useRef, MouseEvent } from 'react';
+import React, { useRef, MouseEvent } from 'react';
 
 const projects = [
   {
@@ -37,7 +37,19 @@ const projects = [
   },
 ];
 
-function ProjectCard({ project, index }: { project: typeof projects[0], index: number }) {
+interface ProjectCardProps {
+  project: {
+    title: string;
+    category: string;
+    image: string;
+    description: string;
+    link: string;
+    github: string;
+  };
+  index: number;
+}
+
+const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
