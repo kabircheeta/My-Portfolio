@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { LogIn, LogOut, User, Shield, AlertCircle } from 'lucide-react';
 import { auth, googleProvider, signInWithPopup, signOut, onAuthStateChanged, User as FirebaseUser, db, doc, setDoc, serverTimestamp } from '../firebase';
+import { toast } from 'sonner';
 
 const ADMIN_EMAIL = 'kabirsahab96@gmail.com';
 
@@ -36,17 +37,21 @@ export function AuthBar() {
 
   const handleLogin = async () => {
     try {
-      await signInWithPopup(auth, googleProvider);
+      const result = await signInWithPopup(auth, googleProvider);
+      toast.success(`Welcome back, ${result.user.displayName || 'User'}!`);
     } catch (error) {
       console.error("Login failed:", error);
+      toast.error("Login failed. Please try again.");
     }
   };
 
   const handleLogout = async () => {
     try {
       await signOut(auth);
+      toast.info("Logged out successfully.");
     } catch (error) {
       console.error("Logout failed:", error);
+      toast.error("Logout failed.");
     }
   };
 

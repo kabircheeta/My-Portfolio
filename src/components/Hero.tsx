@@ -1,11 +1,20 @@
 import { motion, useScroll, useTransform, useMotionValue, useSpring } from 'motion/react';
-import { ChevronDown } from 'lucide-react';
-import { useRef, useEffect } from 'react';
+import { ChevronDown, User as UserIcon } from 'lucide-react';
+import { useRef, useEffect, useState } from 'react';
 import { DynamicBackground } from './DynamicBackground';
 import { Magnetic } from './Magnetic';
+import { auth, onAuthStateChanged, User } from '../firebase';
 
 export function Hero() {
+  const [user, setUser] = useState<User | null>(null);
   const containerRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+    return () => unsubscribe();
+  }, []);
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end start"]
@@ -74,7 +83,7 @@ export function Hero() {
           transition={{ delay: 0.2, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="inline-block px-4 py-1.5 rounded-full border border-apple-blue/20 bg-apple-blue/5 text-apple-blue text-xs md:text-sm font-medium tracking-[0.2em] uppercase"
         >
-          Creative Developer & Designer
+          {user ? `Welcome back, ${user.displayName || 'Explorer'}` : 'Creative Developer & Designer'}
         </motion.div>
         
         <div className="overflow-hidden">

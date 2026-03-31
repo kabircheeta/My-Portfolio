@@ -6,6 +6,7 @@
 import { Navbar } from './components/Navbar';
 import { AuthBar } from './components/AuthBar';
 import { Hero } from './components/Hero';
+import { Toaster } from 'sonner';
 import { About } from './components/About';
 import { Projects } from './components/Projects';
 import { Experience } from './components/Experience';
@@ -45,6 +46,7 @@ export default function App() {
 
   return (
     <ErrorBoundary>
+      <Toaster position="top-center" richColors />
       <div className="min-h-screen selection:bg-apple-blue selection:text-white cursor-none">
         <AuthBar />
         <CustomCursor />
